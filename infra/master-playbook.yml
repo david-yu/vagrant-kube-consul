@@ -100,22 +100,22 @@
 
   - name: Install calico pod network
     become: false
-    command: kubectl create -f https://docs.projectcalico.org/v3.5/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml
+    command: kubectl create -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
 
   - name: Generate join command
     shell: kubeadm token create --print-join-command > /vagrant/infra/join-command
-	  
+
   - name: Download and extract helm
     unarchive:
-	  src: https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz
-	  dest: /home/vagrant/helm
-	  remote_src: yes
-	  
+      src: https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz
+      dest: /home/vagrant/
+      remote_src: yes
+ 
   - name: Copy helm to /usr/local/bin
     copy:
-      src: /home/vagrant/helm/helm
+      src: /home/vagrant/linux-amd64/helm
       dest: /usr/local/bin/helm
-		
+ 
   handlers:
     - name: docker status
       service: name=docker state=started
