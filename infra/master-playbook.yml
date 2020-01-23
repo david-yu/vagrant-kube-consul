@@ -104,7 +104,18 @@
 
   - name: Generate join command
     shell: kubeadm token create --print-join-command > /vagrant/infra/join-command
-
+	  
+  - name: Download and extract helm
+    unarchive:
+	  src: https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz
+	  dest: /home/vagrant/helm
+	  remote_src: yes
+	  
+  - name: Copy helm to /usr/local/bin
+    copy:
+      src: /home/vagrant/helm/helm
+      dest: /usr/local/bin/helm
+		
   handlers:
     - name: docker status
       service: name=docker state=started
